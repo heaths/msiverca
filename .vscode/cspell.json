@@ -3,8 +3,15 @@
   "language": "en",
   "words": [
     "clippy",
+    "msica",
+    "msiverca",
+    "OSVERSIONINFOEXW",
+    "repr",
     "rustlang",
     "rustup"
+  ],
+  "ignoreRegExpList": [
+    "ERROR_\\w+"
   ],
   "overrides": [
     {

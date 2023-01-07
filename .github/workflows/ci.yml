@@ -23,12 +23,6 @@ env:
 
 jobs:
   test:
-    strategy:
-      matrix:
-        os:
-        - macos-latest
-        - ubuntu-latest
-        - windows-latest
     runs-on: windows-latest
     steps:
     - name: Checkout

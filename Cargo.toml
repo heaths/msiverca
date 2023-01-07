@@ -1,8 +1,14 @@
 [package]
 name = "msiverca"
 version = "0.1.0"
+authors = [ "Heath Stewart (github.com/heaths)" ]
 edition = "2021"
+description = "Windows Installer custom action to get real Windows version information"
 repository = "https://github.com/heaths/msiverca"
 license = "MIT"
 
 [dependencies]
+msica = "0.3.0"
+
+[lib]
+crate-type = [ "lib", "cdylib" ]

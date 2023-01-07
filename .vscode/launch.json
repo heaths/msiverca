@@ -1,36 +1,42 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "lldb",
-      "request": "launch",
-      "name": "tests",
-      "cargo": {
-        "args": [
-          "test",
-          "--no-run",
-          "--lib"
-        ]
-      },
-      "args": [],
-      "cwd": "${workspaceFolder}"
-    },
-    {
-      "type": "lldb",
-      "request": "launch",
-      "name": "executable",
-      "cargo": {
-        "args": [
-          "build",
-          "--bin=main"
-        ],
-        "filter": {
-          "name": "main",
-          "kind": "bin"
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in library 'msiverca'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--lib",
+                    "--package=msiverca"
+                ],
+                "filter": {
+                    "name": "msiverca",
+                    "kind": "lib"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug example 'ver'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--example=ver",
+                    "--package=msiverca"
+                ],
+                "filter": {
+                    "name": "ver",
+                    "kind": "example"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
         }
-      },
-      "args": [],
-      "cwd": "${workspaceFolder}"
-    }
-  ]
+    ]
 }
