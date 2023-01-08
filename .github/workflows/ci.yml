@@ -33,7 +33,7 @@ jobs:
       if: ${{ success() && (!inputs.release || github.event_name != 'workflow_call') }}
       run: cargo fmt --all -- --check
     - name: Test
-      run: cargo test --all-features --workspace
+      run: cargo test --release --all-features --workspace
       env:
         CARGO_INCREMENTAL: 0
         RUSTFLAGS: -Dwarnings
@@ -43,6 +43,16 @@ jobs:
     # Package
     - name: Set up MSBuild
       uses: microsoft/setup-msbuild@v1
+    - name: Set version
+      run: |
+        if ('${{ inputs.version }}') {
+          Write-Host "Setting version '${{ inputs.version }}'"
+          'version=${{ inputs.version }}' >> $env:GITHUB_OUTPUT
+        } else {
+          'version=0.1.0' >> $env:GITHUB_OUTPUT
+        }
+      id: set-version
+      shell: pwsh
     - name: Build
       run: cargo build --release
       env:
@@ -51,7 +61,7 @@ jobs:
     - name: Build WiX extension
       run: msbuild .\build\wix\extension.wixproj -p:Configuration=Release -v:detailed
     - name: Build NuGet package
-      run: nuget pack .\build\wix\extension.nuspec -Version '${{ inputs.version }}' -OutputDirectory .\target\release
+      run: nuget pack .\build\wix\extension.nuspec -Version "${{ steps.set-version.outputs.version }}" -OutputDirectory .\target\release
     - name: Publish extension
       uses: actions/upload-artifact@v3
       with:
