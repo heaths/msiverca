@@ -20,6 +20,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     steps:
+    # Download full history to generate notes below.
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
     - name: Download extension
       uses: actions/download-artifact@v3
       id: download-artifact
