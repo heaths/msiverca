@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Copyright 2023 Heath Stewart.
+Licensed under the MIT License. See LICENSE.txt in the project root for license information.
+-->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <Property Id="VER_WINDOWS_MAJOR" Secure="yes" />
+        <CustomActionRef Id="VerSetVersionInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="VER_WINDOWS_MINOR" Secure="yes" />
+        <CustomActionRef Id="VerSetVersionInfo" />
+    </Fragment>
+    <Fragment>
+        <Property Id="VER_WINDOWS_BUILD" Secure="yes" />
+        <CustomActionRef Id="VerSetVersionInfo" />
+    </Fragment>
+    <Fragment>
+        <CustomAction Id="VerSetVersionInfo" BinaryKey="msiverca" DllEntry="SetVersionInfo" Execute="firstSequence" Return="check" />
+        <InstallExecuteSequence>
+            <Custom Action="VerSetVersionInfo" After="AppSearch" Overridable="yes"><![CDATA[VersionNT > 400 OR (VersionNT = 400 AND ServicePackLevel > 3)]]></Custom>
+        </InstallExecuteSequence>
+        <InstallUISequence>
+            <Custom Action="VerSetVersionInfo" After="AppSearch" Overridable="yes"><![CDATA[VersionNT > 400 OR (VersionNT = 400 AND ServicePackLevel > 3)]]></Custom>
+        </InstallUISequence>
+    </Fragment>
+    <Fragment>
+        <Binary Id="msiverca" SourceFile="msiverca.dll" />
+    </Fragment>
+</Wix>

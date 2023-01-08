@@ -12,3 +12,6 @@ msica = "0.3.0"
 
 [lib]
 crate-type = [ "lib", "cdylib" ]
+
+[profile.release]
+strip = "symbols"

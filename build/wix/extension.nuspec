@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>heaths.wix.verextension</id>
+        <version>0.1.0</version>
+        <authors>Heath Stewart</authors>
+        <owners>heaths</owners>
+        <projectUrl>https://github.com/heaths/msiverca-rs</projectUrl>
+        <license type="expression">MIT</license>
+        <description>Windows Installer XML extension to provide properties containing real Windows version information since VersionNT stopped at "603".</description>
+        <copyright>Copyright 2023 Heath Stewart</copyright>
+        <tags>Windows;WiX;Extension</tags>
+    </metadata>
+    <files>
+        <file src="..\..\target\release\VerExtension.wixlib" target="wix3\"/>
+        <file src="extension.props" target="build\heaths.wix.verextension.props"/>
+    </files>
+</package>

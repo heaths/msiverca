@@ -3,12 +3,15 @@
   "language": "en",
   "words": [
     "clippy",
+    "msbuild",
     "msica",
     "msiverca",
+    "nupkg",
     "OSVERSIONINFOEXW",
     "repr",
     "rustlang",
-    "rustup"
+    "rustup",
+    "wixproj"
   ],
   "ignoreRegExpList": [
     "ERROR_\\w+"
