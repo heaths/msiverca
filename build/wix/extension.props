@@ -7,8 +7,8 @@ Licensed under the MIT License. See LICENSE.txt in the project root for license 
 
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <ItemGroup>
-        <WixExtension Include="$(MSBuildThisFileDirectory)..\wix3\VerExtension.wixlib">
+        <WixLibrary Include="$(MSBuildThisFileDirectory)..\wix3\VerExtension.wixlib">
             <Name>VerExtension.wixlib</Name>
-        </WixExtension>
+        </WixLibrary>
     </ItemGroup>
 </Project>
