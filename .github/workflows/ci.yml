@@ -18,14 +18,6 @@ on:
         type: string
         default: '0.1.0'
 
-defaults:
-  run:
-    shell: bash
-
-env:
-  CARGO_INCREMENTAL: 0
-  RUSTFLAGS: -Dwarnings
-
 jobs:
   test:
     runs-on: windows-latest
@@ -42,6 +34,9 @@ jobs:
       run: cargo fmt --all -- --check
     - name: Test
       run: cargo test --release --all-features --workspace
+      env:
+        CARGO_INCREMENTAL: 0
+        RUSTFLAGS: -Dwarnings
     - name: Lint
       run: cargo clippy --all-features --all-targets --no-deps --workspace
 
@@ -49,7 +44,7 @@ jobs:
     - name: Set up MSBuild
       uses: microsoft/setup-msbuild@v1
     - name: Build WiX extension
-      run: msbuild .\build\wix\extension.wixproj -p:Configuration=Release
+      run: msbuild .\build\wix\extension.wixproj -p:Configuration=Release -v:detailed
     - name: Build NuGet package
       run: nuget pack .\build\wix\extension.nuspec -Version '${{ inputs.version }}' -OutputDirectory .\target\release
     - name: Publish extension
