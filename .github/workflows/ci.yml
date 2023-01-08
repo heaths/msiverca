@@ -46,8 +46,9 @@ jobs:
     - name: Set version
       run: |
         if ('${{ inputs.version }}') {
-          Write-Host "Setting version '${{ inputs.version }}'"
-          'version=${{ inputs.version }}' >> $env:GITHUB_OUTPUT
+          $version = '${{ inputs.version }}' -replace '^v', ''
+          Write-Host "Setting version '$version'"
+          "version=$version" >> $env:GITHUB_OUTPUT
         } else {
           'version=0.1.0' >> $env:GITHUB_OUTPUT
         }
