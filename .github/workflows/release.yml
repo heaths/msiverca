@@ -30,6 +30,8 @@ jobs:
         nuget push "$nupkg" -Source "https://nuget.pkg.github.com/heaths/index.json" -ApiKey "${env:GITHUB_TOKEN}" -NoSymbols -Verbosity detailed
       shell: pwsh
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ github.token }}
     - name: Release
       run: gh release create ${{ github.ref_name }} --generate-notes
+      env:
+        GH_TOKEN: ${{ github.token }}
