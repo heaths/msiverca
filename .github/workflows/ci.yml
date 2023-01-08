@@ -62,7 +62,7 @@ jobs:
       run: msbuild .\build\wix\extension.wixproj -p:Configuration=Release -v:detailed
     - name: Build NuGet package
       run: nuget pack .\build\wix\extension.nuspec -Version "${{ steps.set-version.outputs.version }}" -OutputDirectory .\target\release
-    - name: Publish extension
+    - name: Upload extension
       uses: actions/upload-artifact@v3
       with:
         path: target/release/*.nupkg
