@@ -3,12 +3,14 @@
   "language": "en",
   "words": [
     "clippy",
+    "Dwarnings",
     "msbuild",
     "msica",
     "msiverca",
     "nupkg",
     "OSVERSIONINFOEXW",
     "repr",
+    "RUSTFLAGS",
     "rustlang",
     "rustup",
     "wixproj"

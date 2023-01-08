@@ -26,14 +26,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    # Build
+    # Test
     - name: Set up toolchain
       run: rustup show
     - name: Check formatting
       if: ${{ success() && (!inputs.release || github.event_name != 'workflow_call') }}
       run: cargo fmt --all -- --check
     - name: Test
-      run: cargo test --release --all-features --workspace
+      run: cargo test --all-features --workspace
       env:
         CARGO_INCREMENTAL: 0
         RUSTFLAGS: -Dwarnings
@@ -43,6 +43,11 @@ jobs:
     # Package
     - name: Set up MSBuild
       uses: microsoft/setup-msbuild@v1
+    - name: Build
+      run: cargo build --release
+      env:
+        CARGO_INCREMENTAL: 0
+        RUSTFLAGS: -Dwarnings
     - name: Build WiX extension
       run: msbuild .\build\wix\extension.wixproj -p:Configuration=Release -v:detailed
     - name: Build NuGet package
