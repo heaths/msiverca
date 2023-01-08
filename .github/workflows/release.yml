@@ -26,7 +26,8 @@ jobs:
     - name: Publish extension
       run: |
         $nupkg = dir '${{ steps.download-artifact.outputs.download-path }}' -filter *.nupkg -recurse | select-object -first 1
-        nuget push "$nupkg" -ApiKey "${env:GITHUB_TOKEN}" -Source https://nuget.pkg.github.com/heaths/index.json
+        Write-Host "Publishing '$nupkg'"
+        nuget push "$nupkg" -ApiKey "${env:GITHUB_TOKEN}" -Source https://nuget.pkg.github.com/heaths/index.json -Verbosity detailed
       shell: pwsh
     - name: Release
       run: gh release create ${{ github.ref_name }} --generate-notes
