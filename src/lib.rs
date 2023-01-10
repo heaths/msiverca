@@ -5,7 +5,7 @@
 compile_error!("supported on windows only");
 
 use msica::*;
-use std::mem::size_of;
+use std::{fmt::Display, mem::size_of};
 
 const ERROR_SUCCCESS: u32 = 0;
 const ERROR_INSTALL_FAILURE: u32 = 1603;
@@ -36,7 +36,48 @@ pub extern "C" fn SetVersionInfo(session: Session) -> u32 {
     ERROR_SUCCCESS
 }
 
-pub fn get_version() -> std::result::Result<String, u32> {
+#[derive(Copy, Clone, Debug, Default)]
+pub struct Version {
+    major: u32,
+    minor: u32,
+    build: u32,
+    product_type: ProductType,
+}
+
+impl Version {
+    pub fn new(major: u32, minor: u32, build: u32, product_type: ProductType) -> Self {
+        Version {
+            major,
+            minor,
+            build,
+            product_type,
+        }
+    }
+
+    pub fn major(&self) -> u32 {
+        self.major
+    }
+
+    pub fn minor(&self) -> u32 {
+        self.minor
+    }
+
+    pub fn build(&self) -> u32 {
+        self.build
+    }
+
+    pub fn product_type(&self) -> ProductType {
+        self.product_type
+    }
+}
+
+impl Display for Version {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}.{}.{}", self.major, self.minor, self.build)
+    }
+}
+
+pub fn get_version() -> std::result::Result<Version, u32> {
     let mut info = OSVERSIONINFOEXW::default();
     unsafe {
         let err = RtlGetVersion(&mut info as *mut OSVERSIONINFOEXW);
@@ -45,10 +86,12 @@ pub fn get_version() -> std::result::Result<String, u32> {
         }
     }
 
-    Ok(format!(
-        "{}.{}.{}",
-        info.dwMajorVersion, info.dwMinorVersion, info.dwBuildNumber
-    ))
+    Ok(Version {
+        major: info.dwMajorVersion,
+        minor: info.dwMinorVersion,
+        build: info.dwBuildNumber,
+        product_type: info.wProductType,
+    })
 }
 
 #[allow(non_snake_case, clippy::upper_case_acronyms)]
@@ -63,8 +106,30 @@ struct OSVERSIONINFOEXW {
     wServicePackMajor: u16,
     wServicePackMinor: u16,
     wSuiteMask: u16,
-    wProductType: u8,
+    wProductType: ProductType,
     wReserved: u8,
+}
+
+#[allow(dead_code)]
+#[derive(Copy, Clone, Debug, Default, PartialEq)]
+#[repr(u8)]
+pub enum ProductType {
+    #[default]
+    Unknown,
+    Workstation,
+    DomainController,
+    Server,
+}
+
+impl Display for ProductType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Unknown => write!(f, "(unknown)"),
+            Self::Workstation => write!(f, "workstation"),
+            Self::DomainController => write!(f, "domain controller"),
+            Self::Server => write!(f, "server"),
+        }
+    }
 }
 
 impl Default for OSVERSIONINFOEXW {
@@ -79,7 +144,7 @@ impl Default for OSVERSIONINFOEXW {
             wServicePackMajor: 0,
             wServicePackMinor: 0,
             wSuiteMask: 0,
-            wProductType: 0,
+            wProductType: ProductType::Unknown,
             wReserved: 0,
         }
     }

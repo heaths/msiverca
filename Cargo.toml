@@ -10,6 +10,10 @@ license = "MIT"
 [dependencies]
 msica = "0.3.0"
 
+[dev-dependencies]
+clap = { version = "4.0.32", features = ["std", "usage"], default-features = false }
+windows = { version = "0.43.0", features = ["Win32_UI_WindowsAndMessaging", "Win32_Foundation"] }
+
 [lib]
 crate-type = [ "lib", "cdylib" ]
 
